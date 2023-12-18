@@ -1,5 +1,6 @@
 #include "include/functions.h"
 #include <iostream>
+#include <cstdint>
 
 /*
 Surprisingly there are only three numbers that can be written as the sum of fourth powers of their digits:
@@ -16,6 +17,10 @@ Find the sum of all the numbers that can be written as the sum of fifth powers o
 */
 
 int main() {
+    int power = 4;
+    uint64_t num = 9474;
+    std::cout << "Can " << num << " be written as the sum of " << power << "th power of its digits?:" << '\n';
+    std::cout << std::boolalpha << func::is_sum_of_nth_power_of_digits(num, power) << '\n';
 
     return 0;
 }

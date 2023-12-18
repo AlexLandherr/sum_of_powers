@@ -1,4 +1,7 @@
 #include "include/functions.h"
+#include <cstdint>
+#include <string>
+#include <cmath>
 
 /*
 Surprisingly there are only three numbers that can be written as the sum of fourth powers of their digits:
@@ -14,4 +17,13 @@ The sum of these numbers is 1634 + 8208 + 9474 = 19316.
 Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.
 */
 
-namespace func {}
+namespace func {
+    bool is_sum_of_nth_power_of_digits(uint64_t num, int power) {
+        std::string num_str = std::to_string(num);
+        uint64_t sum_of_powers_of_digits = 0;
+        for (char digit_char : num_str) {
+            sum_of_powers_of_digits += std::pow((digit_char - 48), power);
+        }
+        return sum_of_powers_of_digits == num;
+    }
+}
