@@ -3,20 +3,6 @@
 #include <string>
 #include <cmath>
 
-/*
-Surprisingly there are only three numbers that can be written as the sum of fourth powers of their digits:
-
-1634 = 1^4 + 6^4 + 3^4 + 4^4
-8208 = 8^4 + 2^4 + 0^4 + 8^4
-9474 = 9^4 + 4^4 + 7^4 + 4^4
-
-As 1 = 1^4 is not a sum it is not included.
-
-The sum of these numbers is 1634 + 8208 + 9474 = 19316.
-
-Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.
-*/
-
 namespace func {
     bool is_sum_of_nth_power_of_digits(uint64_t num, int power) {
         std::string num_str = std::to_string(num);
@@ -25,5 +11,42 @@ namespace func {
             sum_of_powers_of_digits += std::pow((digit_char - 48), power);
         }
         return sum_of_powers_of_digits == num;
+    }
+
+    uint64_t sum_of_nth_power_of_digits(uint64_t num, int power) {
+        std::string num_str = std::to_string(num);
+        uint64_t sum_of_powers_of_digits = 0;
+        for (char digit_char : num_str) {
+            sum_of_powers_of_digits += std::pow((digit_char - 48), power);
+        }
+        return sum_of_powers_of_digits;
+    }
+
+    uint64_t find_upper_search_boundary(int power) {
+        char digit_9 = '9';
+        int counter = 1;
+        uint64_t upper_bound = 0;
+        while (true) {
+            std::string current_max_value_as_str = std::string(counter, digit_9);
+            uint64_t power_sum_of_current_max_value = sum_of_nth_power_of_digits(std::stoull(current_max_value_as_str), power);
+            int digit_count_power_sum = static_cast<int>(std::to_string(power_sum_of_current_max_value).length());
+            if (digit_count_power_sum <= counter) {
+                upper_bound = power_sum_of_current_max_value;
+                break;
+            }
+            counter++;
+        }
+        return upper_bound;
+    }
+
+    uint64_t find_answer(int power) {
+        uint64_t result = 0;
+        uint64_t upper_search_bound = find_upper_search_boundary(power);
+        for (uint64_t i = 10; i < upper_search_bound; i++) {
+            if (func::is_sum_of_nth_power_of_digits(i, power)) {
+                result += i;
+            }
+        }
+        return result;
     }
 }
